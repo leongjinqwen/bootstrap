@@ -12,9 +12,9 @@ function randomX (){
 }
 
 function randomSpeed (){
-    const speed = Math.floor(Math.random()*7);
-    if (speed<4){
-        return 3500
+    const speed = Math.floor(Math.random()*6);
+    if (speed<3){
+        return 2500
     }
     return Number(speed+'000')
 }
@@ -54,7 +54,7 @@ function show(i){
                         <span class="left-c"></span>
                     </div>`)
         $(`.balloon-${i}`).css({'background-color':randomColor(),'left':randomX()})
-        $(`.balloon-${i}`).animate({bottom:'100vh'},randomSpeed(),'linear')
+        $(`.balloon-${i}`).animate({bottom:'100vh'},randomSpeed())
     }
 }
 
