@@ -43,7 +43,6 @@ function restart(){
     document.getElementById("score").textContent = 0;
     $("#restart").remove()
     start()
-    console.log('restart')
 };
 
 function show(i){
@@ -54,7 +53,7 @@ function show(i){
                         <span class="left-c"></span>
                     </div>`)
         $(`.balloon-${i}`).css({'background-color':randomColor(),'left':randomX()})
-        $(`.balloon-${i}`).animate({bottom:'100vh'},randomSpeed())
+        $(`.balloon-${i}`).animate({bottom:'110vh'},randomSpeed())
     }
 }
 
