@@ -23,12 +23,12 @@ function start() {
     let seconds = 30
     show(seconds+2)
     show(seconds+1)
-    document.getElementById("countdown").textContent = seconds;
+    $("#countdown").text(seconds);;
     $("#start").remove()
     let countdown = setInterval(function() {
         show(seconds)
         seconds--;
-        document.getElementById("countdown").textContent = seconds;
+        $("#countdown").text(seconds);
         let selected = seconds+6
         $(`.balloon-${selected}`).remove()
         if (seconds <= 0) {
@@ -40,7 +40,7 @@ function start() {
 
 function restart(){
     $(".container").html("")
-    document.getElementById("score").textContent = 0;
+    $("#score").text(0)
     $("#restart").remove()
     start()
 };
@@ -59,7 +59,7 @@ function show(i){
 
 function hide(i) {
     $(`.balloon-${i}`).remove()
-    let score = document.getElementById("score").textContent
+    let score = $("#score").text()
     score++
-    document.getElementById("score").textContent = score;
+    $("#score").text(score);
 };
