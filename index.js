@@ -47,7 +47,7 @@ function restart(){
 
 function show(i){
     if (i>2){
-        $(".container").append(`<div class="balloon balloon-${i}" onClick="hide(${i}) ontouchstart="hide(${i}" >
+        $(".container").append(`<div class="balloon balloon-${i}" onClick="hide(${i})" >
                         <div class="balloon-ref"></div>
                         <span class="top-c"></span>
                         <span class="left-c"></span>
