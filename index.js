@@ -1,65 +1,71 @@
 
-function randomColor (){
+const randomColor = () => {
     const r = Math.floor(Math.random()*255);
     const g = Math.floor(Math.random()*255);
     const b = Math.floor(Math.random()*255);
     return 'rgb(' + r + ',' + g +',' + b + ')'
 }
 
-function randomX (){
-    const left = Math.floor(Math.random()*80);
-    return left+'vw'
-}
-
-function randomSpeed (){
-    const speed = Math.floor(Math.random()*6);
-    if (speed<3){
-        return 2500
+const randomX = () =>{
+    // minus balloon width to make sure balloon always within viewport
+    let left = Math.floor(Math.random() * $(window).innerWidth() - 100)
+    if ( left < 0){
+        left = 0
     }
-    return Number(speed+'000')
+    return `${left}px`
 }
 
-function start() {
-    let seconds = 30
-    show(seconds+2)
-    show(seconds+1)
-    $("#countdown").text(seconds);;
+// move balloon at random speed
+const randomSpeed = () => {
+    let speed = Math.floor(Math.random() * 6)    
+    if (speed < 3){
+        return 3000
+    }
+    return speed * 1000
+}
+
+// when game start, create new balloon every second
+const startGame = () => {
+    let second = 30
     $("#start").remove()
-    let countdown = setInterval(function() {
-        show(seconds)
-        seconds--;
-        $("#countdown").text(seconds);
-        let selected = seconds+6
-        $(`.balloon-${selected}`).remove()
-        if (seconds <= 0) {
-            clearInterval(countdown);
+    let timer = setInterval(function() {
+        $("#timer").text(second);;
+        if (second === 0){
+            clearInterval(timer)
             $("#board").append(`<div id="restart" class="button" onClick="restart()">Play again</div>`)
+        } else {
+            createBalloon()
+            second--
         }
     }, 1000);
 };
 
-function restart(){
-    $(".container").html("")
-    $("#score").text(0)
-    $("#restart").remove()
-    start()
-};
+// remove the balloon element when onclick
+// add event listener
+$('#container').on('click', '.balloon', function(e) {
+    $(e.target).remove()
+    // onclick score increased by 1
+    $('#score').text(parseInt($('#score').text())+1)
+})
 
-function show(i){
-    if (i>2){
-        $(".container").append(`<div class="balloon balloon-${i}" onClick="hide(${i})" >
-                        <div class="balloon-ref"></div>
-                        <span class="top-c"></span>
-                        <span class="left-c"></span>
-                    </div>`)
-        $(`.balloon-${i}`).css({'background-color':randomColor(),'left':randomX()})
-        $(`.balloon-${i}`).animate({bottom:'110vh'},randomSpeed())
-    }
+// use function to create new balloon
+const createBalloon = () => {
+    let newBalloon = document.createElement('div')
+    $(newBalloon).addClass('balloon')
+    $(newBalloon).html(`
+        <span class="top-c"></span>
+        <span class="left-c"></span>
+    `)
+    // get the balloon element then move it to the bottom of the page
+    // set the starting point, show balloon at random x position
+    $(newBalloon).css({bottom: '-130px', left: randomX(), backgroundColor:randomColor()}) // minus the height of balloon
+    $(newBalloon).animate({bottom:'110vh'}, randomSpeed())
+    $('#container').append(newBalloon)
 }
 
-function hide(i) {
-    $(`.balloon-${i}`).remove()
-    let score = $("#score").text()
-    score++
-    $("#score").text(score);
+const restart = () => {
+    $("#container").html("")
+    $("#score").text(0)
+    $("#restart").remove()
+    startGame()
 };
